@@ -5,8 +5,16 @@
 </head>
 <body>
     <h1>Hello world!</h1>
-    <p>JS OK: {{ js_ok }}</p>
+    <form action="/login" method="POST">
+        <label>Login</label>
+        <input type="text" name="login">
 
-    <iframe src="/js-iframe?_={{ rand_val }}"></iframe>
+        <label>Password</label>
+        <input type="password" name="password">
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <iframe src="/js-iframe?_={{ rand_val }}" style="display: none;"></iframe>
 </body>
 </html>

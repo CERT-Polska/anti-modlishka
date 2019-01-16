@@ -6,11 +6,10 @@ from flask_session import Session
 from itsdangerous import URLSafeTimedSerializer
 
 app = Flask(__name__)
-SESSION_TYPE = 'redis'
-app.config.from_object(__name__)
+app.config.from_pyfile('config.py')
 Session(app)
 
-s = URLSafeTimedSerializer(b'secret-key')
+s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 
 @app.route('/gen-js')
@@ -36,13 +35,22 @@ def js_iframe():
 def js_check(token):
     obj = s.loads(token, max_age=60)
 
-    print(obj.get('ip'), obj.get('sid'), request.remote_addr, session.sid)
-
     if obj.get('ip') == request.remote_addr and obj.get('sid') == session.sid:
         session['js_ok'] = True
         return 'OK'
 
     return 'NOT OK'
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    if not session.get('js_ok', False):
+        return 'FRAUD DETECTED'
+
+    if request.form['login'] == 'demo' and request.form['password'] == 'demo':
+        return 'LOGIN OK'
+
+    return 'LOGIN INVALID'
 
 
 @app.route('/')
