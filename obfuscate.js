@@ -3,17 +3,18 @@
 const process = require('process');
 
 const jsKey = process.argv[2];
+const legitDomain = process.argv[3];
 
 const JavaScriptObfuscator = require('javascript-obfuscator');
 
 const obfuscationResult = JavaScriptObfuscator.obfuscate(
     `
         (function(){
-            if (window.parent.location.host != "127.0.0.1:5000") {
+            if (window.parent.location.host != "` + legitDomain + `") {
                 return;
             }
         
-            if (window.location.host != "127.0.0.1:5000") {
+            if (window.location.host != "` + legitDomain + `") {
                 return;
             }
             
