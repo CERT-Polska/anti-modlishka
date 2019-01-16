@@ -1,4 +1,4 @@
-FROM python:3
+FROM tiangolo/uwsgi-nginx-flask:python3.7
 
 RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - \
    && apt update \
@@ -10,4 +10,6 @@ RUN cd /tmp \
    && pip install -r requirements.txt
 
 COPY . /app
+COPY config.docker.py /app/config.py
+
 RUN mv /tmp/node_modules /app/node_modules

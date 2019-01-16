@@ -19,7 +19,7 @@ def gen_js():
     if not js_check_token:
         js_check_token = s.dumps({"sid": session.sid, "ip": request.remote_addr})
 
-    process = Popen(["./obfuscate.js", js_check_token, app.config['LEGITIMATE_DOMAIN']], stdout=PIPE)
+    process = Popen(["./obfuscate.js", js_check_token, app.config['LEGITIMATE_HOST']], stdout=PIPE)
     (output, err) = process.communicate()
     exit_code = process.wait()
 
