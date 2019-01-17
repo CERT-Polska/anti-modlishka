@@ -1,0 +1,12 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+    <h1>Login</h1>
+    {% if status == 'fraud' %}
+    <div class="alert alert-danger">Fraud detected</div>
+    {% elif status == 'error' %}
+    <div class="alert alert-danger">Login failed (invalid login/password)</div>
+    {% elif status == 'ok' %}
+    <div class="alert alert-success">Login successful</div>
+    {% endif %}
+{% endblock %}

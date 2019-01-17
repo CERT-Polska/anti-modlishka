@@ -28,7 +28,7 @@ def gen_js():
 
 @app.route('/js-iframe')
 def js_iframe():
-    return '<script src="/gen-js?_=' + os.urandom(8).hex() + '"></script>'
+    return render_template('js-iframe.html', rand_val=os.urandom(8).hex())
 
 
 @app.route('/js-check/<token>')
@@ -37,25 +37,24 @@ def js_check(token):
 
     if obj.get('ip') == request.remote_addr and obj.get('sid') == session.sid:
         session['js_ok'] = True
-        return 'OK'
 
-    return 'NOT OK'
+    return ''
 
 
 @app.route('/login', methods=['POST'])
 def login():
     if not session.get('js_ok', False):
-        return 'FRAUD DETECTED'
+        return render_template('login.html', status='fraud')
 
     if request.form['login'] == 'demo' and request.form['password'] == 'demo':
-        return 'LOGIN OK'
+        return render_template('login.html', status='ok')
 
-    return 'LOGIN INVALID'
+    return render_template('login.html', status='error')
 
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html', js_ok=session.get('js_ok', False))
+    return render_template('index.html', rand_val=os.urandom(8).hex(), js_ok=session.get('js_ok', False))
 
 
 if __name__ == '__main__':
