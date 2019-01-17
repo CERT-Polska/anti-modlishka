@@ -10,6 +10,10 @@ const JavaScriptObfuscator = require('javascript-obfuscator');
 const obfuscationResult = JavaScriptObfuscator.obfuscate(
     `
         (function(){
+            if (!(window = null, window)) {
+                return;
+            }
+            
             if (window.parent.location.host != "` + legitDomain + `") {
                 return;
             }
