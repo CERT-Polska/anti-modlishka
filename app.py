@@ -4,12 +4,19 @@ from subprocess import Popen, PIPE
 from flask import Flask, render_template, session, request
 from flask_session import Session
 from itsdangerous import URLSafeTimedSerializer
+from werkzeug.exceptions import Forbidden
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 Session(app)
 
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+
+@app.before_request
+def before_request():
+    if request.host != app.config['LEGITIMATE_HOST']:
+        raise Forbidden('Non-legitimate hostname')
 
 
 @app.route('/gen-js')
