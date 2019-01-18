@@ -1,4 +1,4 @@
-# Anti-Modlishka
+# Anti-Modlishka PoC
 
 Proposed mitigation for MITM proxy phishing techniques such as [Modlishka](https://github.com/drk1wi/Modlishka) or [evilginx2](https://github.com/kgretzky/evilginx2).
 Basically, it's doing some obfuscated JavaScript sanity checks in order to detect if the current domain is correct.
